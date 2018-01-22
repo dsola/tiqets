@@ -17,7 +17,7 @@ class BarCodeReaderTest(unittest.TestCase):
     def test_check_specific_bar_code(self):
         bar_codes = BarCodeReader.read(TEST_ASSETS_DIRECTORY + "one_barcode.csv")
         bar_code = bar_codes[0]
-        self.assert_bar_code(bar_code)
+        self.__assert_bar_code(bar_code)
 
     def test_read_multiple_barcodes(self):
         bar_codes = BarCodeReader.read(TEST_ASSETS_DIRECTORY + "barcodes.csv")
@@ -31,7 +31,7 @@ class BarCodeReaderTest(unittest.TestCase):
         bar_codes = BarCodeReader.read(TEST_ASSETS_DIRECTORY + "barcodes_with_duplicates.csv")
         self.assertEquals(len(bar_codes), 5)
 
-    def assert_bar_code(self, bar_code):
+    def __assert_bar_code(self, bar_code):
         self.assertEquals('11111111111', bar_code.get_reference())
         self.assertEquals('1', bar_code.get_order_id())
 
