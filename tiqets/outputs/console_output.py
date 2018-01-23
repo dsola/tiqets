@@ -8,14 +8,14 @@ class ConsoleOutput:
     @staticmethod
     def render_result(customers):
         ConsoleOutput.__validate_collection(customers)
-        for customer in customers:
+        for customer in customers.values():
             ConsoleOutput.__validate_customer(customer)
             ConsoleOutput.__render_customer(customer)
 
     @staticmethod
     def __validate_collection(customers):
-        if not isinstance(customers, collections.Iterable):
-            raise InvalidObjectTypeException('The customers argument is not iterable.')
+        if not type(customers) is dict:
+            raise InvalidObjectTypeException('The customers argument is not a Dictionary.')
 
     @staticmethod
     def __validate_customer(customer):

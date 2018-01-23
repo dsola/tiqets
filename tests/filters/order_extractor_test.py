@@ -2,7 +2,7 @@ import unittest
 
 from entities.order import Order
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
-from extractors.order_extractor import OrderExtractor
+from filters.order_extractor import OrderExtractor
 
 
 class OrderExtractorTest(unittest.TestCase):
