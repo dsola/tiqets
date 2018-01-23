@@ -14,6 +14,9 @@ class BarCodeFilterTest(unittest.TestCase):
         result = BarCodeFilter.filter_by_order_id(1, [])
         self.assertEquals(len(result), 0)
 
+    def test_when_list_contains_an_invalid_bar_code(self):
+        self.assertRaises(InvalidObjectTypeException, BarCodeFilter.filter_by_order_id, 1, [2])
+
     def test_when_one_element_exists(self):
         result = BarCodeFilter.filter_by_order_id(1, [BarCode(1111, 1)])
         self.assertEquals(len(result), 1)

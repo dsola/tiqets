@@ -32,7 +32,7 @@ class ConsoleOutput:
     def __render_order(order_with_bar_codes):
         print(order_with_bar_codes.get_id() + ",[", end='')
         initial_value = True
-        for bar_code in order_with_bar_codes.get_bar_codes():
+        for bar_code in order_with_bar_codes.get_bar_code_references():
             if not(initial_value):
                 print(",", end='')
             else:

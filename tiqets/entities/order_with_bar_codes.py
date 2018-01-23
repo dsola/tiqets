@@ -7,7 +7,7 @@ class OrderWithBarCodes(object):
     def get_id(self):
         return self.__id
 
-    def get_bar_codes(self):
+    def get_bar_code_references(self):
         return self.__bar_codes
 
     def get_customer_id(self):
