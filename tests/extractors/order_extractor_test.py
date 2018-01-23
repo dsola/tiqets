@@ -1,6 +1,5 @@
 import unittest
 
-from entities.bar_code import BarCode
 from entities.order import Order
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
 from extractors.order_extractor import OrderExtractor
