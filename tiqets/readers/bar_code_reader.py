@@ -3,7 +3,7 @@ import csv, os, logging
 from exceptions.invalid_directory_path_exception import InvalidDirectoryPathException
 from tiqets.entities.bar_code import BarCode
 
-DEFAULT_FILE_PATH = "/../../assets/orders.csv"
+DEFAULT_FILE_PATH = "/../../assets/barcodes.csv"
 
 class BarCodeReader:
 
@@ -11,18 +11,20 @@ class BarCodeReader:
     def read(relative_path = ""):
         relative_path = BarCodeReader.__get_relative_path(relative_path)
         bar_codes = []
+        bar_codes_without_orders = []
         with open(os.path.dirname(__file__) + relative_path, 'r') as file:
             reader = csv.reader(file, delimiter=',')
             next(reader)
             for row in reader:
-                BarCodeReader.__read_row(bar_codes, row)
+                BarCodeReader.__read_row(bar_codes, bar_codes_without_orders, row)
 
-        return bar_codes
+        return (bar_codes, bar_codes_without_orders)
 
     @staticmethod
-    def __read_row(bar_codes, row):
-        if (row[0] in [None, ""]):
-            logging.error("The order " + row[1] + " doesn't have any barcode specified.")
+    def __read_row(bar_codes, bar_codes_without_orders, row):
+        if not row[1]:
+            logging.error("The barcode " + row[0] + " doesn't have any order specified.")
+            bar_codes_without_orders.append(row)
         else:
             bar_code = BarCode(row[0], row[1])
             if (BarCodeReader.__bar_code_reference_exists(bar_code, bar_codes)):

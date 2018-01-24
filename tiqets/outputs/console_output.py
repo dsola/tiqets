@@ -24,6 +24,12 @@ class ConsoleOutput:
         print("-------------------------------------")
 
     @staticmethod
+    def render_bar_codes_without_orders(bar_codes_without_orders):
+        print("--- Bar Codes without orders ---")
+        print(len(bar_codes_without_orders))
+        print("--------------------------------")
+
+    @staticmethod
     def __validate_collection(customers):
         if not isinstance(customers, collections.Iterable):
             raise InvalidObjectTypeException('The customers argument is not iterable.')
