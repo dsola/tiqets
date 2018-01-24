@@ -19,4 +19,4 @@ class BarCodeFilter:
     @staticmethod
     def __validate_bar_code(bar_code_item):
         if not type(bar_code_item) is BarCode:
-            raise InvalidObjectTypeException('The bar_codes list must contain only a Bar Code entity.')
+            raise InvalidObjectTypeException('The bar_codes list must contain only a Bar Code entities.')

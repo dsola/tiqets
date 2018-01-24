@@ -30,7 +30,7 @@ class CustomerExtractor:
     @staticmethod
     def __validate_order(order):
         if not (type(order) is Order):
-            raise InvalidObjectTypeException('The orders list contains an invalid type.')
+            raise InvalidObjectTypeException('The orders list contains only Order entities.')
 
     @staticmethod
     def __include_customer_into_the_collection(customers, order_with_bar_codes):
