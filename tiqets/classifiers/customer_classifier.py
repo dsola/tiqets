@@ -4,6 +4,8 @@ from operator import itemgetter
 from entities.customer import Customer
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
 from exceptions.not_enough_customers_for_classification_exception import NotEnoughCustomersForClassificationException
+from validators.collection_validator import CollectionValidator
+from validators.customer_validator import CustomerValidator
 
 
 class CustomerClassifier:
@@ -11,7 +13,8 @@ class CustomerClassifier:
     @staticmethod
     def get_top_buyers(customers, number_of_elements):
 
-        CustomerClassifier.__validate_collection(customers)
+        CollectionValidator.validate(customers)
+        CustomerClassifier.__validate_customers(customers)
         CustomerClassifier.__validate_number_of_elements(customers, number_of_elements)
 
         index = range(0, number_of_elements)
@@ -40,6 +43,6 @@ class CustomerClassifier:
             raise InvalidObjectTypeException('The input of the CustomerSelector must be a list.')
 
     @staticmethod
-    def __validate_customer(customer):
-        if not type(customer) is Customer:
-            raise InvalidObjectTypeException('The customers list must contain only Customer entities.')
+    def __validate_customers(customers):
+        for customer in customers:
+            CustomerValidator.validate(customer)

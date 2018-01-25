@@ -1,36 +1,31 @@
 import collections
 
 from entities.customer import Customer
-from entities.order import Order
 from entities.order_with_bar_codes import OrderWithBarCodes
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
 from filters.ticket_filter import TicketFilter
+from validators.collection_validator import CollectionValidator
+from validators.order_validator import OrderValidator
 
 
 class CustomerExtractor:
     @staticmethod
-    def extract(bar_codes, orders):
-        if not isinstance(orders, collections.Iterable) or not isinstance(bar_codes, collections.Iterable):
-            raise InvalidObjectTypeException('The input of the CustomerExtractor must be a pair of lists.')
-
+    def extract(tickets, orders):
+        CollectionValidator.validate(tickets)
+        CollectionValidator.validate(orders)
         customers = dict()
         for order in orders:
-            CustomerExtractor.__validate_order(order)
+            OrderValidator.validate(order)
             order_with_bar_codes = OrderWithBarCodes(
                 order.get_id(),
                 order.get_customer_id(),
-                TicketFilter.filter_by_order_id(order.get_id(), bar_codes)
+                TicketFilter.filter_by_order_id(order.get_id(), tickets)
             )
 
             if (len(order_with_bar_codes.get_bar_code_references()) > 0):
                 CustomerExtractor.__include_customer_into_the_collection(customers, order_with_bar_codes)
 
         return customers
-
-    @staticmethod
-    def __validate_order(order):
-        if not (type(order) is Order):
-            raise InvalidObjectTypeException('The orders list contains only Order entities.')
 
     @staticmethod
     def __include_customer_into_the_collection(customers, order_with_bar_codes):
