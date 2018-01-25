@@ -1,6 +1,6 @@
 import unittest
 
-from entities.bar_code import BarCode
+from entities.ticket import Ticket
 from entities.order import Order
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
 from extractors.customer_extractor import CustomerExtractor
@@ -25,16 +25,16 @@ class CustomerExtractorTest(unittest.TestCase):
     def test_exception_when_orders_contains_and_invalid_type(self):
         self.assertRaises(InvalidObjectTypeException, CustomerExtractor.extract, [], [1])
 
-    def test_when_has_one_order_with_no_barcodes(self):
+    def test_when_has_one_order_with_any_ticket(self):
         orders = [ Order("1", "1") ]
-        bar_codes = [ BarCode("1111", "2")]
-        result = CustomerExtractor.extract(bar_codes, orders)
+        tickets = [Ticket("1111", "2")]
+        result = CustomerExtractor.extract(tickets, orders)
         self.assertEquals(len(result.values()), 0)
 
-    def test_when_has_one_order_with_one_barcode(self):
+    def test_when_has_one_order_with_one_ticket(self):
         orders = [Order(ORDER_ID, CUSTOMER_ID)]
-        bar_codes = [BarCode(BARCODE_REFERENCE, ORDER_ID)]
-        result = CustomerExtractor.extract(bar_codes, orders)
+        tickets = [Ticket(BARCODE_REFERENCE, ORDER_ID)]
+        result = CustomerExtractor.extract(tickets, orders)
         self.assertEquals(len(result.values()), 1)
         self.__assert_customer(
             result.get(CUSTOMER_ID),
@@ -44,10 +44,10 @@ class CustomerExtractorTest(unittest.TestCase):
             BARCODE_REFERENCE
         )
 
-    def test_when_has_multiple_orders_with_multiple_barcodes(self):
+    def test_when_has_multiple_orders_with_multiple_tickets(self):
         orders = [Order(ORDER_ID, CUSTOMER_ID), Order(ORDER_ID_2, CUSTOMER_ID_2)]
-        bar_codes = [BarCode(BARCODE_REFERENCE, ORDER_ID), BarCode(BARCODE_REFERENCE_2, ORDER_ID_2)]
-        result = CustomerExtractor.extract(bar_codes, orders)
+        tickets = [Ticket(BARCODE_REFERENCE, ORDER_ID), Ticket(BARCODE_REFERENCE_2, ORDER_ID_2)]
+        result = CustomerExtractor.extract(tickets, orders)
         self.assertEquals(len(result.values()), 2)
         self.__assert_customer(
             result.get(CUSTOMER_ID),
@@ -65,10 +65,10 @@ class CustomerExtractorTest(unittest.TestCase):
             BARCODE_REFERENCE_2
         )
 
-    def test_when_has_multiple_orders_with_multiple_barcodes_for_the_same_customer(self):
+    def test_when_has_multiple_orders_with_multiple_tickets_for_the_same_customer(self):
         orders = [Order(ORDER_ID, CUSTOMER_ID), Order(ORDER_ID_2, CUSTOMER_ID)]
-        bar_codes = [BarCode(BARCODE_REFERENCE, ORDER_ID), BarCode(BARCODE_REFERENCE_2, ORDER_ID_2)]
-        result = CustomerExtractor.extract(bar_codes, orders)
+        tickets = [Ticket(BARCODE_REFERENCE, ORDER_ID), Ticket(BARCODE_REFERENCE_2, ORDER_ID_2)]
+        result = CustomerExtractor.extract(tickets, orders)
         self.assertEquals(len(result.values()), 1)
         self.__assert_customer(
             result.get(CUSTOMER_ID),

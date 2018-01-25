@@ -4,7 +4,7 @@ from entities.customer import Customer
 from entities.order import Order
 from entities.order_with_bar_codes import OrderWithBarCodes
 from exceptions.invalid_object_type_exception import InvalidObjectTypeException
-from filters.bar_code_filter import BarCodeFilter
+from filters.ticket_filter import TicketFilter
 
 
 class CustomerExtractor:
@@ -19,7 +19,7 @@ class CustomerExtractor:
             order_with_bar_codes = OrderWithBarCodes(
                 order.get_id(),
                 order.get_customer_id(),
-                BarCodeFilter.filter_by_order_id(order.get_id(), bar_codes)
+                TicketFilter.filter_by_order_id(order.get_id(), bar_codes)
             )
 
             if (len(order_with_bar_codes.get_bar_code_references()) > 0):
